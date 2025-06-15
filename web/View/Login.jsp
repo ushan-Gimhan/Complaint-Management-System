@@ -11,7 +11,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Complaint Management System</title>
+    <title>Login</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -45,7 +45,6 @@
         }
 
         .btn-login {
-            width: 100%;
             background: linear-gradient(45deg, #007bff, #0056b3);
             border: none;
             padding: 12px;
@@ -54,6 +53,18 @@
 
         .btn-login:hover {
             background: linear-gradient(45deg, #0069d9, #004085);
+            transform: translateY(-1px);
+        }
+
+        .btn-signup {
+            background: linear-gradient(45deg, #28a745, #1e7e34);
+            border: none;
+            padding: 12px;
+            font-weight: 500;
+        }
+
+        .btn-signup:hover {
+            background: linear-gradient(45deg, #218838, #155724);
             transform: translateY(-1px);
         }
 
@@ -77,8 +88,8 @@
 
     <form>
         <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" required>
+            <label for="username" class="form-label">User Name</label>
+            <input type="text" class="form-control" id="username" required>
         </div>
 
         <div class="mb-3">
@@ -93,13 +104,17 @@
             </label>
         </div>
 
-        <button type="submit" class="btn btn-primary btn-login">Login</button>
-
-        <div class="text-center mt-3">
-            <a href="#" class="text-decoration-none">Forgot password?</a>
+        <div class="row mb-3">
+            <div class="col-6">
+                <button type="submit" class="btn btn-primary btn-login w-100">Login</button>
+            </div>
+            <div class="col-6">
+                <button type="button" class="btn btn-success btn-signup w-100">Sign Up</button>
+            </div>
         </div>
     </form>
 </div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

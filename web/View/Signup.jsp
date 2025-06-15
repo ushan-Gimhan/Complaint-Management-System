@@ -1,17 +1,14 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: ushan
-  Date: 15-Jun-25
-  Time: 1:06 AM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page session="true"%>
+
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
             background: white;
@@ -39,7 +36,7 @@
             font-weight: 600;
         }
 
-        .form-control:focus {
+        .form-control:focus, .form-select:focus {
             border-color: #007bff;
             box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
         }
@@ -85,25 +82,29 @@
     <h3 class="signup-title">Create Account</h3>
     <p class="text-center text-muted mb-4">Join our Complaint Management System</p>
 
-    <form>
+    <form action="${pageContext.request.contextPath}/user" method="post">
         <div class="mb-3">
-            <label for="firstName" class="form-label">First Name</label>
-            <input type="text" class="form-control" id="firstName" required>
+            <label for="firstName" class="form-label">User Name</label>
+            <input type="text" name="firstName" class="form-control" id="firstName" required>
         </div>
 
         <div class="mb-3">
             <label for="email" class="form-label">Email Address</label>
-            <input type="email" class="form-control" id="email" required>
+            <input type="email" name="email" class="form-control" id="email" required>
         </div>
 
         <div class="mb-3">
             <label for="password" class="form-label">Password</label>
-            <input type="password" class="form-control" id="password" required>
+            <input type="password" name="password" class="form-control" id="password" required>
         </div>
 
         <div class="mb-3">
-            <label for="confirmPassword" class="form-label">Confirm Password</label>
-            <input type="password" class="form-control" id="confirmPassword" required>
+            <label for="roleSelect" class="form-label">Select Your Role</label>
+            <select class="form-select" id="roleSelect" name="roleSelect" required>
+                <option value="">Choose your role...</option>
+                <option value="admin">Administrator</option>
+                <option value="employee">Employee</option>
+            </select>
         </div>
 
         <button type="submit" class="btn btn-primary btn-signup">Create Account</button>
@@ -114,7 +115,6 @@
         </div>
     </form>
 </div>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
