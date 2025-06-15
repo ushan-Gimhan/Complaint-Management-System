@@ -1,0 +1,120 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: ushan
+  Date: 15-Jun-25
+  Time: 1:06 AM
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 0;
+        }
+
+        .signup-card {
+            max-width: 500px;
+            width: 100%;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            background: white;
+            border: none;
+        }
+
+        .signup-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #007bff;
+            font-weight: 600;
+        }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+
+        .btn-signup {
+            width: 100%;
+            background: linear-gradient(45deg, #007bff, #0056b3);
+            border: none;
+            padding: 12px;
+            font-weight: 500;
+        }
+
+        .btn-signup:hover {
+            background: linear-gradient(45deg, #0069d9, #004085);
+            transform: translateY(-1px);
+        }
+
+        .form-check-input:checked {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        a {
+            color: #007bff !important;
+        }
+
+        a:hover {
+            color: #0056b3 !important;
+        }
+
+        .row {
+            margin: 0;
+        }
+
+        .col-md-6 {
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="signup-card">
+    <h3 class="signup-title">Create Account</h3>
+    <p class="text-center text-muted mb-4">Join our Complaint Management System</p>
+
+    <form>
+        <div class="mb-3">
+            <label for="firstName" class="form-label">First Name</label>
+            <input type="text" class="form-control" id="firstName" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">Email Address</label>
+            <input type="email" class="form-control" id="email" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="confirmPassword" class="form-label">Confirm Password</label>
+            <input type="password" class="form-control" id="confirmPassword" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-signup">Create Account</button>
+
+        <div class="text-center mt-3">
+            <span class="text-muted">Already have an account? </span>
+            <a href="#" class="text-decoration-none">Sign in here</a>
+        </div>
+    </form>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
