@@ -86,22 +86,15 @@
 <div class="login-card">
     <h3 class="login-title">Complaint Management System</h3>
 
-    <form>
+    <form action="${pageContext.request.contextPath}/signIn" method="post">
         <div class="mb-3">
             <label for="username" class="form-label">User Name</label>
-            <input type="text" class="form-control" id="username" required>
+            <input type="text" name="username" class="form-control" id="username" required>
         </div>
 
         <div class="mb-3">
             <label for="password" class="form-label">Password</label>
-            <input type="password" class="form-control" id="password" required>
-        </div>
-
-        <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" id="remember">
-            <label class="form-check-label" for="remember">
-                Remember me
-            </label>
+            <input type="password" name="password" class="form-control" id="password" required>
         </div>
 
         <div class="row mb-3">

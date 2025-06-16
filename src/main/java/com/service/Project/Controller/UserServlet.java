@@ -26,7 +26,7 @@ public class UserServlet extends HttpServlet {
             String role = req.getParameter("roleSelect");
             String email = req.getParameter("email");
 
-            UserModel userModel = new UserModel();
+            UserModel userModel= new UserModel();
             userModel.setUsername(username);
             userModel.setPassword(password);
             userModel.setRole(role);
@@ -36,21 +36,16 @@ public class UserServlet extends HttpServlet {
             System.out.println(role);
             System.out.println(email);
 
-
             boolean result = new UserDAO(this.dataSource).signUp(userModel);
 
-
             if (result) {
-//            response.sendRedirect(request.getContextPath() + "/View/signin.jsp?success=true");
                 req.getRequestDispatcher("View/Login.jsp?success=true").forward(req, resp);
             } else {
-//            response.sendRedirect(request.getContextPath() + "/View/signup.jsp?success=true");
                 req.getRequestDispatcher("View/Signup.jsp?success=true").forward(req, resp);
             }
         } catch (SQLException e) {
             e.printStackTrace();
-//            response.sendRedirect(request.getContextPath() + "/View/signup.jsp?success=true");
-            req.getRequestDispatcher("View/signup.jsp?success=true").forward(req, resp);
+            req.getRequestDispatcher("View/Signup.jsp?success=true").forward(req, resp);
         }
     }
 }
