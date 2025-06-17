@@ -1,7 +1,7 @@
-
 <%@ page import="com.service.Project.Model.ComplaintModel" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.time.LocalDate" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -76,6 +76,32 @@
             transform: translateY(-1px);
         }
 
+        .btn-success {
+            background: linear-gradient(45deg, #28a745, #1e7e34);
+            border: none;
+            padding: 12px 24px;
+            font-weight: 500;
+            border-radius: 8px;
+        }
+
+        .btn-success:hover {
+            background: linear-gradient(45deg, #218838, #1c7430);
+            transform: translateY(-1px);
+        }
+
+        .btn-danger {
+            background: linear-gradient(45deg, #dc3545, #c82333);
+            border: none;
+            padding: 12px 24px;
+            font-weight: 500;
+            border-radius: 8px;
+        }
+
+        .btn-danger:hover {
+            background: linear-gradient(45deg, #c82333, #bd2130);
+            transform: translateY(-1px);
+        }
+
         .user-details {
             background: #e3f2fd;
             border: 1px solid #90caf9;
@@ -120,6 +146,10 @@
             white-space: normal;
             word-wrap: break-word;
         }
+
+        .action-buttons {
+            gap: 10px;
+        }
     </style>
 </head>
 <body>
@@ -153,21 +183,29 @@
                         <br>Complaint ID: <span id="generatedComplaintId"></span>
                     </div>
 
-                    <form id="complaintForm">
+                    <form method="post" action="employee" id="complaintForm" >
                         <div class="user-details">
                             <h6 class="mb-3"><i class="fas fa-user me-2"></i>User Information</h6>
                             <div class="row">
                                 <div class="col-md-4 mb-3">
                                     <label for="userName" class="form-label">Full Name</label>
-                                    <input type="text" class="form-control" id="userName" name="userName" value="<%= session.getAttribute("userName") %>" readonly>
+                                    <input type="text" class="form-control" id="userName" name="userName"
+                                           value="<%= session.getAttribute("userName") != null ? session.getAttribute("userName") : "" %>"
+                                           readonly>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="userId" class="form-label">User ID</label>
-                                    <input type="text" class="form-control" id="userId" name="userId" value="userId" readonly>
+                                    <input type="text" class="form-control" id="userId" name="userId"
+                                           value="<%= session.getAttribute("userId") != null ? session.getAttribute("userId") : "" %>"
+                                           readonly>
                                 </div>
                                 <div class="col-md-4 mb-3">
+                                    <%
+                                        String today = LocalDate.now().toString();
+                                    %>
                                     <label for="signInDate" class="form-label">Date</label>
-                                    <input type="date" class="form-control" id="signInDate" readonly>
+                                    <input type="date" class="form-control" id="signInDate" name="signInDate"
+                                           value="<%= today %>" readonly>
                                 </div>
                             </div>
 
@@ -177,24 +215,32 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="complaintSubject" class="form-label required">Subject</label>
-                                <input type="text" class="form-control" id="complaintSubject" placeholder="Brief description of your complaint" required>
+                                <input type="text" class="form-control" id="complaintSubject" name="complaintSubject" placeholder="Brief description of your complaint" required>
                             </div>
 
                         </div>
 
                         <div class="mb-4">
                             <label for="complaintDescription" class="form-label required">Detailed Description</label>
-                            <textarea class="form-control" id="complaintDescription" rows="8" required placeholder="Please provide detailed information about your complaint. Include when the issue occurred, what happened, and any steps you've already taken to resolve it."></textarea>
+                            <textarea class="form-control" id="complaintDescription" name="complaintDescription" rows="8" required placeholder="Please provide detailed information about your complaint. Include when the issue occurred, what happened, and any steps you've already taken to resolve it."></textarea>
                             <div class="form-text">Minimum 50 characters required</div>
                         </div>
 
+                        <!-- Hidden field for complaint ID (used for update/delete operations) -->
+                        <input type="hidden" id="complaintId" name="complaintId" value="">
 
-                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end action-buttons">
                             <button type="button" class="btn btn-outline-secondary me-md-2" onclick="resetForm()">
                                 <i class="fas fa-undo me-2"></i>Reset Form
                             </button>
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" name="action" value="add" class="btn btn-primary" id="submitBtn">
                                 <i class="fas fa-paper-plane me-2"></i>Submit Complaint
+                            </button>
+                            <button type="submit" name="action" value="update" class="btn btn-success" id="updateBtn">
+                                <i class="fas fa-edit me-2"></i>Update Complaint
+                            </button>
+                            <button type="submit" name="action" value="delete" class="btn btn-danger" id="deleteBtn" onclick="return confirmDelete()">
+                                <i class="fas fa-trash me-2"></i>Delete Complaint
                             </button>
                         </div>
                     </form>
@@ -222,46 +268,44 @@
                             </tr>
                             </thead>
                             <tbody id="complaintsTable">
-<%--                            <%--%>
-<%--                                List<ComplaintModel> complaintList = (List<ComplaintModel>) request.getAttribute("complaintList");--%>
-<%--                                if (complaintList != null) {--%>
-<%--                                    for (ComplaintModel complaint : complaintList) {--%>
-<%--                            %>--%>
-<%--                            <tr>--%>
-<%--                                <td><%= complaint.getComplaint_id() %></td>--%>
-<%--                                <td><%= complaint.getTitle() %></td>--%>
-<%--                                <td><%= complaint.getRemark() %></td>--%>
-<%--                                <td><%= complaint.getDescription() %></td>--%>
-<%--                                <td>--%>
-<%--            <span class="badge--%>
-<%--                <%= "Pending".equals(complaint.getStatus()) ? "bg-warning" :--%>
-<%--                    "Resolved".equals(complaint.getStatus()) ? "bg-success" :--%>
-<%--                    "In Progress".equals(complaint.getStatus()) ? "bg-info" : "bg-secondary" %>">--%>
-<%--                <%= complaint.getStatus() %>--%>
-<%--            </span>--%>
-<%--                                </td>--%>
-<%--                                <td class="remark-cell" title="<%= complaint.getRemark() %>">--%>
-<%--                                    <%= complaint.getRemark() != null ? complaint.getRemark() : "No remark yet" %>--%>
-<%--                                </td>--%>
-<%--                                <td>--%>
-<%--                                    <button class="btn btn-sm btn-outline-warning me-1" onclick="editComplaint('<%= complaint.getId() %>')">--%>
-<%--                                        <i class="fas fa-edit"></i> Update--%>
-<%--                                    </button>--%>
-<%--                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteComplaint('<%= complaint.getId() %>')">--%>
-<%--                                        <i class="fas fa-trash"></i> Delete--%>
-<%--                                    </button>--%>
-<%--                                </td>--%>
-<%--                            </tr>--%>
-<%--                            <%--%>
-<%--                                }--%>
-<%--                            } else {--%>
-<%--                            %>--%>
-<%--                            <tr>--%>
-<%--                                <td colspan="7" class="text-center text-muted">No complaints submitted yet.</td>--%>
-<%--                            </tr>--%>
-<%--                            <%--%>
-<%--                                }--%>
-<%--                            %>--%>
+                            <%
+                                List<ComplaintModel> complaintList = (List<ComplaintModel>) request.getAttribute("complaintList");
+                                if (complaintList != null && !complaintList.isEmpty()) {
+                                    for (ComplaintModel complaint : complaintList) {
+                            %>
+                            <tr onclick="selectComplaint('<%= complaint.getComplaint_id() %>', '<%= complaint.getTitle() %>', '<%= complaint.getDescription() %>')">
+                                <td><%= complaint.getComplaint_id() %></td>
+                                <td><%= complaint.getUser_id() %></td>
+                                <td><%= complaint.getTitle() %></td>
+                                <td><%= complaint.getDescription() %></td>
+                                <td>
+        <span class="badge
+            <%= "Pending".equals(complaint.getStatus()) ? "bg-warning" :
+                "Resolved".equals(complaint.getStatus()) ? "bg-success" :
+                "In Progress".equals(complaint.getStatus()) ? "bg-info" : "bg-secondary" %>">
+            <%= complaint.getStatus() != null ? complaint.getStatus() : "Pending" %>
+        </span>
+                                </td>
+                                <td class="remark-cell" title="<%= complaint.getRemark() %>">
+                                    <%= complaint.getRemark() != null ? complaint.getRemark() : "No remark yet" %>
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary"
+                                            onclick="event.stopPropagation(); selectComplaint('<%= complaint.getComplaint_id() %>', '<%= complaint.getTitle() %>', '<%= complaint.getDescription() %>')">
+                                        Select
+                                    </button>
+                                </td>
+                            </tr>
+                            <%
+                                }
+                            } else {
+                            %>
+                            <tr>
+                                <td colspan="9" class="text-center text-muted">No complaints found.</td>
+                            </tr>
+                            <%
+                                }
+                            %>
                             </tbody>
                         </table>
                     </div>

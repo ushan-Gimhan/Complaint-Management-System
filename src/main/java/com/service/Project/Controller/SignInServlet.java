@@ -10,10 +10,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+
 import javax.sql.DataSource;
 import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 @WebServlet("/signIn")
 public class SignInServlet extends HttpServlet {
@@ -26,6 +25,10 @@ public class SignInServlet extends HttpServlet {
         String password = req.getParameter("password");
 
         UserModel login= new UserDAO(this.dataSource).login(username, password);
+
+        HttpSession session = req.getSession();
+        session.setAttribute("userId", login.getId());
+        session.setAttribute("userName", login.getUsername());
 
         if (login != null) {
             req.getSession().setAttribute("user", login);

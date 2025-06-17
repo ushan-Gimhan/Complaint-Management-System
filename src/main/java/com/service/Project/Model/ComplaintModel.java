@@ -1,12 +1,23 @@
 package com.service.Project.Model;
 
+import java.util.Date;
+
 public class ComplaintModel {
     private int complaint_id;
     private String title;
     private String description;
+    private Date date;
     private int user_id;
     private String status;
     private String remark;
+
+    public java.sql.Date getDate() {
+        return (java.sql.Date) date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
     public String getTitle() {
         return title;
