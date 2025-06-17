@@ -102,8 +102,8 @@
             <label for="roleSelect" class="form-label">Select Your Role</label>
             <select class="form-select" id="roleSelect" name="roleSelect" required>
                 <option value="">Choose your role...</option>
-                <option value="admin">Administrator</option>
-                <option value="employee">Employee</option>
+                <option value="admin">admin</option>
+                <option value="employee">employee</option>
             </select>
         </div>
 
@@ -111,7 +111,7 @@
 
         <div class="text-center mt-3">
             <span class="text-muted">Already have an account? </span>
-            <a href="#" class="text-decoration-none">Sign in here</a>
+            <a href="<%=request.getContextPath()%>/View/Login.jsp" class="text-decoration-none">Sign in here</a>
         </div>
     </form>
 </div>

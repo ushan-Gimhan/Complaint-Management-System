@@ -102,8 +102,12 @@
                 <button type="submit" class="btn btn-primary btn-login w-100">Login</button>
             </div>
             <div class="col-6">
-                <button type="button" class="btn btn-success btn-signup w-100">Sign Up</button>
+                <button type="button" class="btn btn-success btn-signup w-100"
+                        onclick="window.location.href='<%= request.getContextPath() %>/View/Signup.jsp'">
+                    Sign Up
+                </button>
             </div>
+
         </div>
     </form>
 </div>

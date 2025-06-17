@@ -161,9 +161,9 @@
             Complaint Management System
         </a>
         <div class="navbar-nav ms-auto">
-            <button class="btn btn-outline-light" href="#">
+            <a href="<%= request.getContextPath() %>/View/Login.jsp" class="btn btn-outline-light">
                 <i class="fas fa-sign-out-alt me-1"></i> Logout
-            </button>
+            </a>
         </div>
     </div>
 </nav>

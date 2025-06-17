@@ -228,9 +228,11 @@
                 <i class="fas fa-user-circle me-1"></i>
                 Admin Panel
             </div>
-            <button class="btn btn-outline-light" href="#">
-                <i class="fas fa-sign-out-alt me-1"></i> Logout
-            </button>
+            <div class="navbar-nav ms-auto">
+                <a href="<%= request.getContextPath() %>/View/Login.jsp" class="btn btn-outline-light">
+                    <i class="fas fa-sign-out-alt me-1"></i> Logout
+                </a>
+            </div>
         </div>
     </div>
 </nav>
@@ -452,10 +454,6 @@
         document.getElementById('deleteAlert').classList.add('d-none');
     }
     function clearSelection() {
-        if (selectedRow) {
-            selectedRow.classList.remove('selected');
-            selectedRow = null;
-        }
 
         document.getElementById('noSelectionMessage').style.display = 'block';
         document.getElementById('complaintDetails').classList.remove('show');
