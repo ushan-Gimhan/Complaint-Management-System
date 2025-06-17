@@ -28,16 +28,20 @@ public class UserDAO {
         return true;
     }
     public UserModel login(String username, String password) {
-        String sql = "SELECT * FROM users WHERE name = ? AND password = ?";
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
 
+        try {
+            conn = dataSource.getConnection();
+            stmt = conn.prepareStatement("SELECT * FROM users WHERE name = ? AND password = ?");
             stmt.setString(1, username);
             stmt.setString(2, password);
 
-            ResultSet rs = stmt.executeQuery();
+            rs = stmt.executeQuery();
             if (rs.next()) {
                 return new UserModel(
+                        rs.getInt("id"),
                         rs.getString("name"),
                         rs.getString("password"),
                         rs.getString("role")
@@ -45,8 +49,19 @@ public class UserDAO {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            // Always close resources manually if not using try-with-resources
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
         return null;
     }
+
 
 }

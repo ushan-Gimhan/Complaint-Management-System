@@ -34,14 +34,14 @@ public class SignInServlet extends HttpServlet {
                     "\nWelcome " + login +
                     "\nYour role is " + login.getRole());
             if ("admin".equals(login.getRole())) {
-                resp.sendRedirect(req.getContextPath() + "/employee");
+                resp.sendRedirect(req.getContextPath() + "/admin");
             } else if ("employee".equals(login.getRole())) {
                 resp.sendRedirect(req.getContextPath() + "/employee");
             }
         } else {
             req.setAttribute("error", "Invalid username or password");
             try {
-                req.getRequestDispatcher("view/Login.jsp").forward(req, resp);
+                req.getRequestDispatcher("View/Login.jsp").forward(req, resp);
             } catch (ServletException e) {
                 throw new RuntimeException(e);
             }

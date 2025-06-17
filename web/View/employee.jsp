@@ -1,6 +1,7 @@
 
-<%@ page import="com.service.Project.Model.EmployeeModel" %>
+<%@ page import="com.service.Project.Model.ComplaintModel" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.util.List" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -158,11 +159,11 @@
                             <div class="row">
                                 <div class="col-md-4 mb-3">
                                     <label for="userName" class="form-label">Full Name</label>
-                                    <input type="text" class="form-control" id="userName" value="John Doe" readonly>
+                                    <input type="text" class="form-control" id="userName" name="userName" value="<%= session.getAttribute("userName") %>" readonly>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="userId" class="form-label">User ID</label>
-                                    <input type="text" class="form-control" id="userId" value="USR-2024-001" readonly>
+                                    <input type="text" class="form-control" id="userId" name="userId" value="userId" readonly>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="signInDate" class="form-label">Date</label>
@@ -221,54 +222,46 @@
                             </tr>
                             </thead>
                             <tbody id="complaintsTable">
-                            <tr>
-                                <td>01</td>
-                                <td>Service Quality Issue</td>
-                                <td>2025-06-12</td>
-                                <td>The service quality has been poor recently...</td>
-                                <td><span class="badge bg-warning">Pending</span></td>
-                                <td class="remark-cell" title="Complaint received and forwarded to service department for review">Complaint received and forwarded to service department for review</td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-warning me-1" onclick="editComplaint('CMP-20250612-001')">
-                                        <i class="fas fa-edit"></i> Update
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteComplaint('CMP-20250612-001')">
-                                        <i class="fas fa-trash"></i> Delete
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>02</td>
-                                <td>Billing Error</td>
-                                <td>2025-06-10</td>
-                                <td>There was an incorrect charge on my bill...</td>
-                                <td><span class="badge bg-success">Resolved</span></td>
-                                <td class="remark-cell" title="Billing correction applied. Refund processed successfully">Billing correction applied. Refund processed successfully</td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-warning me-1" onclick="editComplaint('CMP-20250610-002')">
-                                        <i class="fas fa-edit"></i> Update
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteComplaint('CMP-20250610-002')">
-                                        <i class="fas fa-trash"></i> Delete
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>03</td>
-                                <td>Product Defect</td>
-                                <td>2025-06-08</td>
-                                <td>The product delivered has a manufacturing defect...</td>
-                                <td><span class="badge bg-info">In Progress</span></td>
-                                <td class="remark-cell" title="Product inspection scheduled. Replacement will be arranged after verification">Product inspection scheduled. Replacement will be arranged after verification</td>
-                                <td>
-                                    <button class="btn btn-sm btn-outline-warning me-1" onclick="editComplaint('CMP-20250608-003')">
-                                        <i class="fas fa-edit"></i> Update
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteComplaint('CMP-20250608-003')">
-                                        <i class="fas fa-trash"></i> Delete
-                                    </button>
-                                </td>
-                            </tr>
+<%--                            <%--%>
+<%--                                List<ComplaintModel> complaintList = (List<ComplaintModel>) request.getAttribute("complaintList");--%>
+<%--                                if (complaintList != null) {--%>
+<%--                                    for (ComplaintModel complaint : complaintList) {--%>
+<%--                            %>--%>
+<%--                            <tr>--%>
+<%--                                <td><%= complaint.getComplaint_id() %></td>--%>
+<%--                                <td><%= complaint.getTitle() %></td>--%>
+<%--                                <td><%= complaint.getRemark() %></td>--%>
+<%--                                <td><%= complaint.getDescription() %></td>--%>
+<%--                                <td>--%>
+<%--            <span class="badge--%>
+<%--                <%= "Pending".equals(complaint.getStatus()) ? "bg-warning" :--%>
+<%--                    "Resolved".equals(complaint.getStatus()) ? "bg-success" :--%>
+<%--                    "In Progress".equals(complaint.getStatus()) ? "bg-info" : "bg-secondary" %>">--%>
+<%--                <%= complaint.getStatus() %>--%>
+<%--            </span>--%>
+<%--                                </td>--%>
+<%--                                <td class="remark-cell" title="<%= complaint.getRemark() %>">--%>
+<%--                                    <%= complaint.getRemark() != null ? complaint.getRemark() : "No remark yet" %>--%>
+<%--                                </td>--%>
+<%--                                <td>--%>
+<%--                                    <button class="btn btn-sm btn-outline-warning me-1" onclick="editComplaint('<%= complaint.getId() %>')">--%>
+<%--                                        <i class="fas fa-edit"></i> Update--%>
+<%--                                    </button>--%>
+<%--                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteComplaint('<%= complaint.getId() %>')">--%>
+<%--                                        <i class="fas fa-trash"></i> Delete--%>
+<%--                                    </button>--%>
+<%--                                </td>--%>
+<%--                            </tr>--%>
+<%--                            <%--%>
+<%--                                }--%>
+<%--                            } else {--%>
+<%--                            %>--%>
+<%--                            <tr>--%>
+<%--                                <td colspan="7" class="text-center text-muted">No complaints submitted yet.</td>--%>
+<%--                            </tr>--%>
+<%--                            <%--%>
+<%--                                }--%>
+<%--                            %>--%>
                             </tbody>
                         </table>
                     </div>

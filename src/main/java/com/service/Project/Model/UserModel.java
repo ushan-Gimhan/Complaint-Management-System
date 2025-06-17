@@ -5,8 +5,10 @@ public class UserModel {
     public UserModel() {
 
     }
-    public UserModel(String username, String password, String role) {
-        this.username = username;
+
+    public UserModel(int id, String name, String password, String role) {
+        this.id = id;
+        this.username = name;
         this.password = password;
         this.role = role;
     }
@@ -47,4 +49,13 @@ public class UserModel {
     private String email;
     private String password;
     private String role;
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

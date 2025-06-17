@@ -1,6 +1,6 @@
 package com.service.Project.Model;
 
-public class EmployeeModel {
+public class ComplaintModel {
     private int complaint_id;
     private String title;
     private String description;
