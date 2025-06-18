@@ -395,7 +395,7 @@
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label for="complaintStatus" class="form-label required">Status</label>
-                                        <select class="form-select" id="complaintStatus" required>
+                                        <select class="form-select" id="complaintStatus" name="complaintStatus" required>
                                             <option value="">Select Status</option>
                                             <option value="Pending">Pending</option>
                                             <option value="In Progress">In Progress</option>
@@ -407,7 +407,7 @@
 
                                 <div class="mb-3">
                                     <label for="adminRemark" class="form-label required">Admin Remark</label>
-                                    <textarea class="form-control" id="adminRemark" rows="3" required placeholder="Enter your remark or update about this complaint..."></textarea>
+                                    <textarea class="form-control" id="adminRemark" name="adminRemark" rows="3" required placeholder="Enter your remark or update about this complaint..."></textarea>
                                     <div class="form-text">Provide detailed information about the action taken or current status</div>
                                 </div>
 
@@ -415,10 +415,10 @@
                                     <button type="button" class="btn btn-outline-secondary me-md-2" onclick="clearSelection()">
                                         <i class="fas fa-times me-2"></i>Clear Selection
                                     </button>
-                                    <button type="button" name="action" value="delete" class="btn btn-danger me-md-2">
+                                    <button type="submit" name="action" value="delete" class="btn btn-danger me-md-2">
                                         <i class="fas fa-trash-alt me-2"></i>Delete
                                     </button>
-                                    <button type="button" name="action" value="update" class="btn btn-primary">
+                                    <button type="submit" name="action" value="update" class="btn btn-primary">
                                         <i class="fas fa-save me-2"></i>Update Complaint
                                     </button>
                                 </div>

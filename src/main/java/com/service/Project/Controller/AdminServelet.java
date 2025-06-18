@@ -41,33 +41,27 @@ public class AdminServelet extends HttpServlet {
 
         if ("update".equals(action)) {
             int complaintId = Integer.parseInt(req.getParameter("complaintId"));
-            String title = req.getParameter("title");
-            String description = req.getParameter("description");
-            String status = req.getParameter("status");
-            String remark = req.getParameter("remark");
+            String status = req.getParameter("complaintStatus");
+            System.out.println(status);
+            String remark = req.getParameter("adminRemark");
+            System.out.println(remark);
 
             ComplaintModel employeeModel = new ComplaintModel();
             employeeModel.setComplaint_id(complaintId);
-            employeeModel.setTitle(title);
-            employeeModel.setDescription(description);
             employeeModel.setStatus(status);
             employeeModel.setRemark(remark);
 
 
             int result = 0;
-            try {
-                result = adminDao.updateComplaint(employeeModel);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+            result = adminDao.updateComplaintByAdmin(employeeModel);
             if (result > 0) {
-                req.getSession().setAttribute("msg", "Complaint updated successfully");
+                resp.getWriter().println("<script>alert('Complaint updated successfully!'); window.location.href='admin';</script>");
             } else {
                 req.getSession().setAttribute("msg", "Failed to update complaint");
             }
         } else if ("delete".equals(action)) {
-            System.out.println(req.getParameter("complaint_id"));
-            int complaintId = Integer.parseInt(req.getParameter("complaint_id"));
+            System.out.println(req.getParameter("complaintId"));
+            int complaintId = Integer.parseInt(req.getParameter("complaintId"));
             int result = 0;
             try {
                 result = adminDao.deleteComplaint(complaintId);
@@ -75,7 +69,7 @@ public class AdminServelet extends HttpServlet {
                 throw new RuntimeException(e);
             }
             if (result > 0) {
-                req.getSession().setAttribute("msg", "Complaint deleted successfully");
+                resp.getWriter().println("<script>alert('Complaint deleted successfully!'); window.location.href='admin';</script>");
             } else {
                 req.getSession().setAttribute("msg", "Failed to delete complaint");
             }

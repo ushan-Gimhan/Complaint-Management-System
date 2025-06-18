@@ -117,4 +117,17 @@ public class EmployeeDAO {
         }
         return list;
     }
+
+    public int updateComplaintByAdmin(ComplaintModel complaintModel) {
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(
+                     "UPDATE complaints SET status = ?, remark = ? WHERE id = ?")) {
+            preparedStatement.setString(1, complaintModel.getStatus());
+            preparedStatement.setString(2, complaintModel.getRemark());
+            preparedStatement.setInt(3, complaintModel.getComplaint_id());
+            return preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
