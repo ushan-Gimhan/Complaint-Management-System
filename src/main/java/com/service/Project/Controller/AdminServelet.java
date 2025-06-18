@@ -1,6 +1,7 @@
 package com.service.Project.Controller;
 
 import com.service.Project.DAO.EmployeeDAO;
+import com.service.Project.DAO.UserDAO;
 import com.service.Project.Model.ComplaintModel;
 import jakarta.annotation.Resource;
 import jakarta.servlet.ServletException;
@@ -29,5 +30,10 @@ public class AdminServelet extends HttpServlet {
         } catch (NumberFormatException e) {
             resp.sendRedirect("View/Login.jsp?error=invalidSessionId");
         }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
     }
 }

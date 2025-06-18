@@ -360,7 +360,7 @@
                             <strong>Deleted!</strong> Complaint has been deleted successfully.
                         </div>
 
-                        <form method="post" action="employee" id="complaintForm">
+                        <form method="post" action="admin" id="complaintForm">
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="complaintId" class="form-label">Complaint ID</label>
@@ -415,10 +415,10 @@
                                     <button type="button" class="btn btn-outline-secondary me-md-2" onclick="clearSelection()">
                                         <i class="fas fa-times me-2"></i>Clear Selection
                                     </button>
-                                    <button type="button" class="btn btn-danger me-md-2">
+                                    <button type="button" name="action" value="add" class="btn btn-danger me-md-2">
                                         <i class="fas fa-trash-alt me-2"></i>Delete
                                     </button>
-                                    <button type="button" class="btn btn-primary">
+                                    <button type="button" name="action" value="delete" class="btn btn-primary">
                                         <i class="fas fa-save me-2"></i>Update Complaint
                                     </button>
                                 </div>

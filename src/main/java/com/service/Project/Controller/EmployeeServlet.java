@@ -69,7 +69,6 @@ public class EmployeeServlet extends HttpServlet {
                 String description = req.getParameter("complaintDescription");
                 String date = req.getParameter("signInDate");
                 java.sql.Date sqlDate = java.sql.Date.valueOf(date);
-                System.out.println(date);
 
                 ComplaintModel employeeModel = new ComplaintModel();
                 employeeModel.setUser_id(userId);
@@ -85,15 +84,18 @@ public class EmployeeServlet extends HttpServlet {
                     req.setAttribute("message", "Failed to add complaint");
                 }
             } else if ("update".equals(action)) {
-                int complaintId = Integer.parseInt(req.getParameter("complaint_id"));
-                String title = req.getParameter("title");
-                String description = req.getParameter("description");
+                int complaintId = Integer.parseInt(req.getParameter("complaintId"));
+                System.out.println(complaintId);
+                String title = req.getParameter("complaintSubject");
+                String description = req.getParameter("complaintDescription");
+                String date = req.getParameter("signInDate");
+                java.sql.Date sqlDate = java.sql.Date.valueOf(date);
 
                 ComplaintModel employeeModel = new ComplaintModel();
-                employeeModel.setComplaint_id(complaintId);
+                employeeModel.setUser_id(userId);
+                employeeModel.setDate(sqlDate);
                 employeeModel.setTitle(title);
                 employeeModel.setDescription(description);
-                employeeModel.setUser_id(userId);
 
                 boolean isPending = employeeDao.checkStatus(complaintId);
 
@@ -110,7 +112,7 @@ public class EmployeeServlet extends HttpServlet {
 
 
             } else if ("delete".equals(action)) {
-                int complaintId = Integer.parseInt(req.getParameter("complaint_id"));
+                int complaintId = Integer.parseInt(req.getParameter("complaintId"));
 
                 boolean isPending = employeeDao.checkStatus(complaintId);
 

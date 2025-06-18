@@ -273,7 +273,7 @@
                                 if (complaintList != null && !complaintList.isEmpty()) {
                                     for (ComplaintModel complaint : complaintList) {
                             %>
-                            <tr onclick="selectComplaint('<%= complaint.getComplaint_id() %>', '<%= complaint.getTitle() %>', '<%= complaint.getDescription() %>')">
+                            <tr onclick="selectComplaint('<%= complaint.getTitle() %>', '<%= complaint.getDescription() %>')">
                                 <td><%= complaint.getComplaint_id() %></td>
                                 <td><%= complaint.getUser_id() %></td>
                                 <td><%= complaint.getTitle() %></td>
@@ -316,5 +316,20 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+    let selectedRow = null;
+
+    function selectComplaint(title,description) {
+        // Set form values
+        document.getElementById('complaintSubject').value = title;
+        document.getElementById('complaintDescription').value = description;
+
+    }
+    function resetForm() {
+        document.getElementById('complaintSubject').value = '';
+        document.getElementById('complaintDescription').value = '';
+    }
+
+</script>
 </body>
 </html>

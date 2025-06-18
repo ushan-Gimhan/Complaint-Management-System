@@ -102,7 +102,7 @@
             <label for="roleSelect" class="form-label">Select Your Role</label>
             <select class="form-select" id="roleSelect" name="roleSelect" required>
                 <option value="">Choose your role...</option>
-                <option value="admin">admin</option>
+<%--                <option value="admin">admin</option>--%>
                 <option value="employee">employee</option>
             </select>
         </div>
