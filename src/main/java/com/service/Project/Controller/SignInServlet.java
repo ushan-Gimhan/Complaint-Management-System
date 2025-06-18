@@ -25,12 +25,14 @@ public class SignInServlet extends HttpServlet {
         String password = req.getParameter("password");
 
         UserModel login= new UserDAO(this.dataSource).login(username, password);
-
-        HttpSession session = req.getSession();
-        session.setAttribute("userId", login.getId());
-        session.setAttribute("userName", login.getUsername());
+        if (login == null) {
+            req.getSession().setAttribute("loginMessage", "error");
+        }
 
         if (login != null) {
+            HttpSession session = req.getSession();
+            session.setAttribute("userId", login.getId());
+            session.setAttribute("userName", login.getUsername());
             req.getSession().setAttribute("user", login);
             resp.setStatus(HttpServletResponse.SC_OK);
             resp.getWriter().write("Login successful" +
@@ -42,8 +44,9 @@ public class SignInServlet extends HttpServlet {
                 resp.sendRedirect(req.getContextPath() + "/employee");
             }
         } else {
-            req.setAttribute("error", "Invalid username or password");
+            req.getSession().setAttribute("loginMessage", "error");
             try {
+                req.getSession().setAttribute("loginMessage", "error");
                 req.getRequestDispatcher("View/Login.jsp").forward(req, resp);
             } catch (ServletException e) {
                 throw new RuntimeException(e);

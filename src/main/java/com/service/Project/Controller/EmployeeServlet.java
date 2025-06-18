@@ -79,9 +79,9 @@ public class EmployeeServlet extends HttpServlet {
 
                 int result = employeeDao.addComplain(employeeModel);
                 if (result > 0) {
-                    req.setAttribute("message", "Complain added successfully");
+                    req.getSession().setAttribute("complaintMessage", "success");
                 } else {
-                    req.setAttribute("message", "Failed to add complaint");
+                    req.getSession().setAttribute("complaintMessage", "error");
                 }
             } else if ("update".equals(action)) {
                 String empIdStr = req.getParameter("complaintId");
@@ -98,15 +98,18 @@ public class EmployeeServlet extends HttpServlet {
                 employeeModel.setDescription(description);
 
                 boolean isPending = employeeDao.checkStatus(Integer.parseInt(empIdStr));
+                System.out.println(isPending);
+                System.out.println(empIdStr);
 
                 if (isPending) {
+                    req.getSession().setAttribute("complaintMessage", "error");
                     req.setAttribute("message", "This complaint already in resolved state.. you can't update");
                 } else {
                     int result = employeeDao.updateComplaint(employeeModel);
                     if (result > 0) {
-                        req.setAttribute("message", "Complaint updated successfully");
+                        req.getSession().setAttribute("complaintMessage", "updated");
                     } else {
-                        req.setAttribute("message", "Failed to update complaint");
+                        req.getSession().setAttribute("complaintMessage", "error-updated");
                     }
                 }
 
@@ -117,14 +120,15 @@ public class EmployeeServlet extends HttpServlet {
                 boolean isPending = employeeDao.checkStatus(complaintId);
 
                 if (isPending) {
-                    req.setAttribute("message", "This complaint already in resolved state.. you can't delete");
+                    req.getSession().setAttribute("complaintMessage", "error");
+//                    req.setAttribute("message", "This complaint already in resolved state.. you can't delete");
                 } else {
                     int result = employeeDao.deleteComplaint(complaintId);
 
                     if (result > 0) {
-                        req.setAttribute("message", "Complaint deleted successfully");
+                        req.getSession().setAttribute("complaintMessage", "deleted");
                     } else {
-                        req.setAttribute("message", "Failed to delete complaint");
+                        req.getSession().setAttribute("complaintMessage", "delete-error");
                     }
                 }
             }

@@ -26,21 +26,27 @@ public class UserServlet extends HttpServlet {
             String role = req.getParameter("roleSelect");
             String email = req.getParameter("email");
 
+            UserDAO userDAO = new UserDAO(this.dataSource);
+
             UserModel userModel= new UserModel();
             userModel.setUsername(username);
             userModel.setPassword(password);
             userModel.setRole(role);
             userModel.setEmail(email);
-            System.out.println(username);
-            System.out.println(password);
-            System.out.println(role);
-            System.out.println(email);
+
+            if (userDAO.isUsernameExists(username)) {
+                req.getSession().setAttribute("loginMessage", "error");
+                req.getRequestDispatcher("View/Signup.jsp").forward(req, resp);
+                return;
+            }
 
             boolean result = new UserDAO(this.dataSource).signUp(userModel);
 
             if (result) {
+                req.getSession().setAttribute("loginMessage", "success");
                 req.getRequestDispatcher("View/Login.jsp?success=true").forward(req, resp);
             } else {
+                req.getSession().setAttribute("loginMessage", "error");
                 req.getRequestDispatcher("View/Signup.jsp?success=true").forward(req, resp);
             }
         } catch (SQLException e) {

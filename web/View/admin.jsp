@@ -378,7 +378,7 @@
                                     <input type="text" class="form-control" id="userName" readonly>
                                 </div>
                             </div>
-
+                            <input type="hidden" id="userID" name="complaintId" value="<%= request.getAttribute("userId") != null ? request.getAttribute("userId") : "" %>">
                             <div class="mb-3">
                                 <label for="complaintSubject" class="form-label">Subject</label>
                                 <input type="text" class="form-control" id="complaintSubject" readonly>
@@ -432,6 +432,48 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<%
+    String msg = (String) session.getAttribute("complaintMessage");
+    if (msg != null) {
+        session.removeAttribute("complaintMessage"); // Clear after showing
+%>
+<script>
+    <% if ("updated".equals(msg)) { %>
+    Swal.fire({
+        icon: 'success',
+        title: 'Updated!',
+        text: 'Complaint updated successfully.',
+        showConfirmButton: false,
+        timer: 2000
+    });
+    <% } else if ("update-error".equals(msg)) { %>
+    Swal.fire({
+        icon: 'error',
+        title: 'Update Failed!',
+        text: 'Could not update complaint.',
+        showConfirmButton: true
+    });
+    <% } else if ("deleted".equals(msg)) { %>
+    Swal.fire({
+        icon: 'success',
+        title: 'Deleted!',
+        text: 'Complaint deleted successfully.',
+        showConfirmButton: false,
+        timer: 2000
+    });
+    <% } else if ("delete-error".equals(msg)) { %>
+    Swal.fire({
+        icon: 'error',
+        title: 'Delete Failed!',
+        text: 'Something went wrong. Try again.',
+        showConfirmButton: true
+    });
+    <% } %>
+</script>
+<%
+    }
+%>
 <script>
     let selectedRow = null;
 

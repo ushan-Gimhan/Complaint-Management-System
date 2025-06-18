@@ -64,4 +64,15 @@ public class UserDAO {
     }
 
 
+    public boolean isUsernameExists(String username) {
+        String query = "SELECT id FROM users WHERE name = ?";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, username);
+            ResultSet rs = stmt.executeQuery();
+            return rs.next(); // true if user exists
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

@@ -184,6 +184,15 @@
                     </div>
 
                     <form method="post" action="employee" id="complaintForm" >
+                        <% String message = (String) request.getAttribute("message"); %>
+                        <% if (message != null) { %>
+                        <div class="message <%= message.contains("successfully") ? "success" : "error" %>">
+                            <%= message %>
+                        </div>
+                        <% } %>
+                        <div class="message success">
+                            Complaint updated successfully!
+                        </div>
                         <div class="user-details">
                             <h6 class="mb-3"><i class="fas fa-user me-2"></i>User Information</h6>
                             <div class="row">
@@ -203,7 +212,7 @@
                                     <%
                                         String today = LocalDate.now().toString(); // yyyy-MM-dd format
                                     %>
-
+                                    <label for="signInDate" class="form-label">Date</label>
                                     <input type="date" class="form-control" id="signInDate" name="signInDate"
                                            value="<%= today %>" readonly>
                                 </div>
@@ -306,6 +315,7 @@
                             <%
                                 }
                             %>
+
                             </tbody>
                         </table>
                     </div>
@@ -316,6 +326,61 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<%
+    String msg = (String) session.getAttribute("complaintMessage");
+    if (msg != null) {
+        session.removeAttribute("complaintMessage"); // clear after showing
+%>
+<script>
+    <% if ("success".equals(msg)) { %>
+    Swal.fire({
+        icon: 'success',
+        title: 'Complaint submitted!',
+        showConfirmButton: false,
+        timer: 2000
+    });
+    <% } else if ("error".equals(msg)) { %>
+    Swal.fire({
+        icon: 'error',
+        title: 'This complaint already in resolved state..!!!,',
+        text: 'Please try again.',
+        showConfirmButton: true
+    });
+    <% } else if ("updated".equals(msg)) { %>
+    Swal.fire({
+        icon: 'success',
+        title: 'Updated!',
+        text: 'Complaint updated successfully.',
+        showConfirmButton: false,
+        timer: 2000
+    });
+    <% } else if ("update-error".equals(msg)) { %>
+    Swal.fire({
+        icon: 'error',
+        title: 'Update Failed!',
+        text: 'Could not update complaint.',
+        showConfirmButton: true
+    });
+    <% } else if ("deleted".equals(msg)) { %>
+    Swal.fire({
+        icon: 'success',
+        title: 'Deleted!',
+        text: 'Complaint deleted successfully.',
+        showConfirmButton: false,
+        timer: 2000
+    });
+    <% } else if ("delete-error".equals(msg)) { %>
+    Swal.fire({
+        icon: 'error',
+        title: 'Delete Failed!',
+        text: 'Something went wrong. Try again.',
+        showConfirmButton: true
+    });
+    <% } %>
+</script>
+<% } %>
+
 <script>
     let selectedRow = null;
 
@@ -332,6 +397,14 @@
         document.getElementById('complaintSubject').value = '';
         document.getElementById('complaintDescription').value = '';
     }
+    const messages = document.querySelectorAll('.message');
+    messages.forEach(message => {
+        setTimeout(() => {
+            message.style.opacity = '0';
+            message.style.transform = 'translateX(-20px)';
+            setTimeout(() => message.remove(), 300);
+        }, 5000);
+    });
 </script>
 </body>
 </html>

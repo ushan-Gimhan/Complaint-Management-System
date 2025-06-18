@@ -116,5 +116,39 @@
     </form>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<%
+    String loginMsg = (String) session.getAttribute("loginMessage");
+    if (loginMsg != null) {
+        session.removeAttribute("loginMessage"); // Clear after showing
+%>
+<script>
+    <% if ("success".equals(loginMsg)) { %>
+    Swal.fire({
+        icon: 'success',
+        title: 'Account Created!',
+        text: 'Use user name and Password to Log...',
+        showConfirmButton: false,
+        timer: 2000
+    });
+    <% } else if ("error".equals(loginMsg)) { %>
+    Swal.fire({
+        icon: 'error',
+        title: 'Failed to Create',
+        text: 'Enter correct User Name and Password.',
+        showConfirmButton: true
+    });
+    <% } else if ("inactive".equals(loginMsg)) { %>
+    Swal.fire({
+        icon: 'warning',
+        title: 'Account Inactive',
+        text: 'Please contact administrator.',
+        showConfirmButton: true
+    });
+    <% } %>
+</script>
+<%
+    }
+%>
 </body>
 </html>

@@ -8,6 +8,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 
 import javax.sql.DataSource;
@@ -25,7 +26,6 @@ public class AdminServelet extends HttpServlet {
             List<ComplaintModel> list = new EmployeeDAO(dataSource).getAllComplaints();
             req.setAttribute("complaintList", list);
             req.getRequestDispatcher("View/admin.jsp").forward(req, resp);
-
         } catch (NumberFormatException e) {
             resp.sendRedirect("View/Login.jsp?error=invalidSessionId");
         }
@@ -35,29 +35,30 @@ public class AdminServelet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
 
-        EmployeeDAO adminDao = new EmployeeDAO(this.dataSource);
+        HttpSession session = req.getSession();
+        session.getAttribute("userId");
 
+        EmployeeDAO adminDao = new EmployeeDAO(this.dataSource);
         System.out.println(action);
 
         if ("update".equals(action)) {
             int complaintId = Integer.parseInt(req.getParameter("complaintId"));
+
             String status = req.getParameter("complaintStatus");
-            System.out.println(status);
             String remark = req.getParameter("adminRemark");
-            System.out.println(remark);
 
             ComplaintModel employeeModel = new ComplaintModel();
             employeeModel.setComplaint_id(complaintId);
             employeeModel.setStatus(status);
             employeeModel.setRemark(remark);
 
-
             int result = 0;
             result = adminDao.updateComplaintByAdmin(employeeModel);
             if (result > 0) {
-                resp.getWriter().println("<script>alert('Complaint updated successfully!'); window.location.href='admin';</script>");
+//                resp.getWriter().println("<script>alert('Complaint updated successfully!'); window.location.href='admin';</script>");
+                req.getSession().setAttribute("complaintMessage", "updated");
             } else {
-                req.getSession().setAttribute("msg", "Failed to update complaint");
+                req.getSession().setAttribute("complaintMessage", "update-error");
             }
         } else if ("delete".equals(action)) {
             System.out.println(req.getParameter("complaintId"));
@@ -69,10 +70,12 @@ public class AdminServelet extends HttpServlet {
                 throw new RuntimeException(e);
             }
             if (result > 0) {
-                resp.getWriter().println("<script>alert('Complaint deleted successfully!'); window.location.href='admin';</script>");
+//                resp.getWriter().println("<script>alert('Complaint deleted successfully!'); window.location.href='admin';</script>");
+                req.getSession().setAttribute("complaintMessage", "deleted");
             } else {
-                req.getSession().setAttribute("msg", "Failed to delete complaint");
+                req.getSession().setAttribute("complaintMessage", "delete-error");
             }
         }
+        resp.sendRedirect(req.getContextPath() + "/admin");
     }
 }
