@@ -201,9 +201,9 @@
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <%
-                                        String today = LocalDate.now().toString();
+                                        String today = LocalDate.now().toString(); // yyyy-MM-dd format
                                     %>
-                                    <label for="signInDate" class="form-label">Date</label>
+
                                     <input type="date" class="form-control" id="signInDate" name="signInDate"
                                            value="<%= today %>" readonly>
                                 </div>
@@ -227,7 +227,7 @@
                         </div>
 
                         <!-- Hidden field for complaint ID (used for update/delete operations) -->
-                        <input type="hidden" id="complaintId" name="complaintId" value="">
+                        <input type="hidden" id="complaintId" name="complaintId" value="<%= request.getAttribute("complaintId") != null ? request.getAttribute("complaintId") : "" %>">
 
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end action-buttons">
                             <button type="button" class="btn btn-outline-secondary me-md-2" onclick="resetForm()">
@@ -273,7 +273,7 @@
                                 if (complaintList != null && !complaintList.isEmpty()) {
                                     for (ComplaintModel complaint : complaintList) {
                             %>
-                            <tr onclick="selectComplaint('<%= complaint.getTitle() %>', '<%= complaint.getDescription() %>')">
+                            <tr onclick="selectComplaint('<%= complaint.getTitle() %>', '<%= complaint.getDescription() %>',<%= complaint.getComplaint_id() %>)">
                                 <td><%= complaint.getComplaint_id() %></td>
                                 <td><%= complaint.getUser_id() %></td>
                                 <td><%= complaint.getTitle() %></td>
@@ -319,17 +319,19 @@
 <script>
     let selectedRow = null;
 
-    function selectComplaint(title,description) {
+    function selectComplaint(title,description,selectedComplaintId) {
+        document.getElementById("submitBtn").disabled = true;
         // Set form values
         document.getElementById('complaintSubject').value = title;
         document.getElementById('complaintDescription').value = description;
+        document.getElementById("complaintId").value = selectedComplaintId;
 
     }
     function resetForm() {
+        document.getElementById("submitBtn").disabled =false;
         document.getElementById('complaintSubject').value = '';
         document.getElementById('complaintDescription').value = '';
     }
-
 </script>
 </body>
 </html>

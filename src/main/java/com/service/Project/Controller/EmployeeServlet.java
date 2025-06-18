@@ -84,20 +84,20 @@ public class EmployeeServlet extends HttpServlet {
                     req.setAttribute("message", "Failed to add complaint");
                 }
             } else if ("update".equals(action)) {
-                int complaintId = Integer.parseInt(req.getParameter("complaintId"));
-                System.out.println(complaintId);
+                String empIdStr = req.getParameter("complaintId");
                 String title = req.getParameter("complaintSubject");
                 String description = req.getParameter("complaintDescription");
                 String date = req.getParameter("signInDate");
                 java.sql.Date sqlDate = java.sql.Date.valueOf(date);
 
                 ComplaintModel employeeModel = new ComplaintModel();
+                employeeModel.setComplaint_id(Integer.parseInt(empIdStr));
                 employeeModel.setUser_id(userId);
                 employeeModel.setDate(sqlDate);
                 employeeModel.setTitle(title);
                 employeeModel.setDescription(description);
 
-                boolean isPending = employeeDao.checkStatus(complaintId);
+                boolean isPending = employeeDao.checkStatus(Integer.parseInt(empIdStr));
 
                 if (isPending) {
                     req.setAttribute("message", "This complaint already in resolved state.. you can't update");

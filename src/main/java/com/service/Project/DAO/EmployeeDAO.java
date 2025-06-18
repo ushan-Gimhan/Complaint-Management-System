@@ -1,7 +1,6 @@
 package com.service.Project.DAO;
 
 import com.service.Project.Model.ComplaintModel;
-import com.service.Project.Model.UserModel;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -56,11 +55,12 @@ public class EmployeeDAO {
     public int updateComplaint(ComplaintModel complaintModel) throws SQLException {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(
-                     "UPDATE complaints SET subject = ?, description = ? WHERE id = ? AND userID = ?")) {
+                     "UPDATE complaints SET subject = ?, description = ? ,date=? WHERE id = ? AND userID = ?")) {
             preparedStatement.setString(1, complaintModel.getTitle());
             preparedStatement.setString(2, complaintModel.getDescription());
-            preparedStatement.setInt(3, complaintModel.getComplaint_id());
-            preparedStatement.setInt(4, complaintModel.getUser_id());
+            preparedStatement.setString(3, String.valueOf(complaintModel.getDate()));
+            preparedStatement.setInt(4, complaintModel.getComplaint_id());
+            preparedStatement.setInt(5, complaintModel.getUser_id());
             return preparedStatement.executeUpdate();
         }
     }
@@ -74,27 +74,26 @@ public class EmployeeDAO {
         }
     }
     public boolean checkStatus(int complaintId) throws SQLException {
+            try (Connection connection = dataSource.getConnection();
+                 PreparedStatement preparedStatement = connection.prepareStatement(
+                         "SELECT status FROM complaints WHERE id = ?")) {
 
-        System.out.println("complaintId: " + complaintId);
+                preparedStatement.setInt(1, complaintId);
 
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(
-                     "SELECT status FROM complaints WHERE id = ?")) {
-            preparedStatement.setInt(1, complaintId);
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-
-                if (resultSet.next()) {
-                    String status = resultSet.getString("status");
-                    return status.equals("RESOLVED");
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        String status = resultSet.getString("status");
+                        return "RESOLVED".equalsIgnoreCase(status); // Safer string comparison
+                    }
                 }
 
-                return false;
-
-            }catch (SQLException e) {
-                throw new RuntimeException(e);
+            } catch (SQLException e) {
+                e.printStackTrace(); // Or log the error
+                throw new RuntimeException("Database error while checking complaint status", e);
             }
+
+            return false; // If no result found
         }
-    }
 
     public List<ComplaintModel> getAllComplaints() {
         List<ComplaintModel> list = new ArrayList<>();
