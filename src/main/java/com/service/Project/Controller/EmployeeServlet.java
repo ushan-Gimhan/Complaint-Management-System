@@ -1,9 +1,7 @@
 package com.service.Project.Controller;
 
 import com.service.Project.DAO.EmployeeDAO;
-import com.service.Project.DAO.UserDAO;
-import com.service.Project.Model.ComplaintModel; // <-- use correct model
-import com.service.Project.Model.UserModel;
+import com.service.Project.Model.ComplaintModel;
 import jakarta.annotation.Resource;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -14,9 +12,7 @@ import jakarta.servlet.http.HttpSession;
 
 import javax.sql.DataSource;
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.List;
 
 @WebServlet("/employee")
@@ -98,8 +94,6 @@ public class EmployeeServlet extends HttpServlet {
                 employeeModel.setDescription(description);
 
                 boolean isPending = employeeDao.checkStatus(Integer.parseInt(empIdStr));
-                System.out.println(isPending);
-                System.out.println(empIdStr);
 
                 if (isPending) {
                     req.getSession().setAttribute("complaintMessage", "error");
@@ -133,9 +127,10 @@ public class EmployeeServlet extends HttpServlet {
                 }
             }
 
-            List<ComplaintModel> list = employeeDao.getComplaintsByUser(userId);
-            req.setAttribute("complaintList", list);
-            req.getRequestDispatcher("View/employee.jsp").forward(req, resp);
+//            List<ComplaintModel> list = employeeDao.getComplaintsByUser(userId);
+//            req.setAttribute("complaintList", list);
+//            req.getRequestDispatcher("View/employee.jsp").forward(req, resp);
+            resp.sendRedirect(req.getContextPath() + "/employee");
 
         } catch (SQLException e) {
             throw new ServletException("Database error: " + e.getMessage(), e);
